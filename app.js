@@ -4,16 +4,16 @@ Todos.allow({
   update: function() { return true; }
 });
 
-Meteor.methods({
-  addTodo: function(title) {
-    var a =  Todos.insert({'title': title});
-    console.log('n8866666');
-  }
-});
-
 if(Meteor.isServer) {
   Meteor.publish('todos', function() {
     return Todos.find();
+  });
+
+  Meteor.methods({
+    addTodo: function(title) {
+      check(title, String);
+      var a =  Todos.insert({'title': title});
+    }
   });
 }
 
