@@ -4,6 +4,10 @@ Todos.allow({
   update: function() { return true; }
 });
 
+var followers = [
+  "hello@kadira.io"
+];
+
 if(Meteor.isServer) {
   Meteor.publish('todos', function() {
     return Todos.find();
@@ -12,6 +16,17 @@ if(Meteor.isServer) {
   Meteor.methods({
     addTodo: function(title) {
       check(title, String);
+
+      // sending emails to followers for this todo list
+      followers.forEach(function(follower) {
+        Email.send({
+          from: "hello@todoapp.com",
+          to: follower,
+          subject: "New todo added",
+          text: "here's the todo item: " + title
+        });
+      });
+      
       var a =  Todos.insert({'title': title});
     }
   });
@@ -24,7 +39,9 @@ if(Meteor.isClient) {
     'click #add-todo': function () {
       var todoText = $('#input-todo').val();
       if(todoText.trim() != ""){
-        Meteor.call('addTodo', todoText);
+        Meteor.call('addTodo', todoText, function() {
+          alert("todo added successfully");
+        });
         $('#input-todo').val('');
       }
     },
