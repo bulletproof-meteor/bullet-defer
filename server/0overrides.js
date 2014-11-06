@@ -1,11 +1,12 @@
-// Now we are faking email sending a bit
-// Here we are manually adding 1200ms wait time to mimic 
-// Actual time spent on sending emails
+// nastly hack to prevent to delay email sending
+// dev mode email is simply printing it to the console
+// so we are going to use that to delay
 
-var orig = AppConfig.configurePackage;
-AppConfig.configurePackage = function(type) {
-  if(type == 'email') {
-    Meteor._sleepForMs(2300);
+var Fiber = Npm.require('fibers');
+var origWrite = process.stdout.write;
+process.stdout.write = function() {
+  if(Fiber.current) {
+    Meteor._sleepForMs(1000);
   }
-  return orig.apply(this, arguments);
+  return origWrite.apply(process.stdout, arguments);
 };
