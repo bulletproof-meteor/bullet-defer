@@ -1,5 +1,4 @@
-# bullet-one: input validations
+# [Defer execution in Meteor](https://bulletproofmeteor.com/basics/defer-the-execution)
 
-This is a simple todo Meteor app which helps you to understand input validations.
 
-![Meteor Todo App Screenshot](https://i.cloudup.com/DCcBG58qYv.png)
+[![Defer execution in Meteor](https://cldup.com/YPySJMdmSF.png)](https://bulletproofmeteor.com/basics/defer-the-execution)
